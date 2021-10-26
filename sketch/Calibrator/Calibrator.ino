@@ -23,10 +23,10 @@ void loop()
   if( Serial.available() > 0 )
   {
     byte inByte = Serial.read();
-    if (inByte == 0x0F)
+    if (true)
     {
       // Poll sensor
-      uint16_t reading = sense(20);
+      uint16_t reading = sense(10);
 
       // Pack data
       uint8_t packet[3];
@@ -37,7 +37,7 @@ void loop()
       // Write data
       for (uint8_t i=0; i<3; i++)
       {
-        Serial.println(packet[i]);
+        Serial.write(packet[i]);
       }
     }
   }
