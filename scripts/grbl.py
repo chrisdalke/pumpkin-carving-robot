@@ -8,7 +8,7 @@ CNC controller.
 class grbl:
     def __init__( self, portname):
         # Initialize the serial port
-        print('Connecting to port: ' + portname)
+        print('Connecting grbl to port: ' + portname)
         self.portname = portname
         self.port = serial.Serial(portname, 115200)
         
