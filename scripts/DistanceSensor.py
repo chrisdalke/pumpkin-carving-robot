@@ -27,6 +27,7 @@ class DistanceSensor:
             in_bytes[0] = ord(self.port.read())
             in_bytes[1] = ord(self.port.read())
             sample = struct.unpack(">H", in_bytes)[0]
+            #TODO: calibrate sensor with a linear or quadratic regression, apply to readings
         else:
             print('Corrupted packet, flushing buffer')
             self.port.flush()

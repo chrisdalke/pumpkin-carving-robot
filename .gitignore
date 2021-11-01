@@ -1,2 +1,7 @@
-scripts/*.csv
+*.csv
+*.gcode
+*.swp
+scripts/data
+scripts/gcode
+scripts/img
 *__pycache__

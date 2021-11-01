@@ -7,20 +7,22 @@ import csv
 
 def main():
     # Calibration bounds
-    x_min = 0
-    x_max = 120
+    x_min = 20
+    x_max = 100
     x_step = 10
-    z_min = 0
-    z_max = 360
-    z_step = 10
-    y_value = 0
+
+    y_min = 0
+    y_max = 360
+    y_step = 10
+
+    z_value = 0
 
     X_UPPER_LIMIT = 200
-    sensor_offset = 38
-    x_offset = 55
-    y_axis_offset = 170
+    sensor_offset_z = 38
+    sensor_offset_x = 53
+    axis_offset = 168
 
-    if x_max + x_offset > X_UPPER_LIMIT:
+    if x_max + sensor_offset_x > X_UPPER_LIMIT:
         sys.exit('ERROR: calibration window larger than machine work area')
 
     # Select the correct ports 
@@ -52,29 +54,29 @@ def main():
     # Run calibration sequence
     g.wake()
     g.home()
-    g.goTo(x_offset, y_value, z_min)
+    g.goTo(sensor_offset_x, z_value, y_min)
     sensor.poll()
 
     cal = []
 
     # Genereate the calibration toolpath
-    for x in range(x_min + x_offset, x_max + x_offset + x_step, x_step):
-        for z in range(z_min, z_max, z_step):
+    for x in range(x_min + sensor_offset_x, x_max + sensor_offset_x + x_step, x_step):
+        for y in range(y_min, y_max, y_step):
 
-            # Go to the target pose
-            if (x/x_step) % 2 == 1:
-                g.goTo(x, y_value, (z_max-z_step) - z)
+            if ((x - sensor_offset_x)/x_step) %2 == 1:
+                g.goTo(x, (y_max - y_step) - y, z_value)
             else:
-                g.goTo(x, y_value, z)
+                g.goTo(x, y, z_value)
+                
 
-            if z == z_min:
+            if y == y_min:
                 sensor.poll() # clear out the first reading
 
             # Query the ToF sensor        
             distance = sensor.poll()
-            z_val  = (y_axis_offset + sensor_offset) - distance
+            y_val  = (axis_offset + sensor_offset_z) - distance
             print('Reading: ' + str(distance) + ' mm')
-            cal.append([x, z, z_val])
+            cal.append([x - sensor_offset_x, y, y_val])
 
     # Write calibration to file
     filename = 'calibration.csv'
