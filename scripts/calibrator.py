@@ -8,7 +8,7 @@ import csv
 def main():
     # Calibration bounds
     x_min = 20
-    x_max = 100
+    x_max = 90
     x_step = 10
 
     y_min = 0
@@ -63,11 +63,14 @@ def main():
     for x in range(x_min + sensor_offset_x, x_max + sensor_offset_x + x_step, x_step):
         for y in range(y_min, y_max, y_step):
 
+
+            g.goTo(x, y, z_value)
+            '''
             if ((x - sensor_offset_x)/x_step) %2 == 1:
                 g.goTo(x, (y_max - y_step) - y, z_value)
             else:
                 g.goTo(x, y, z_value)
-                
+            ''' 
 
             if y == y_min:
                 sensor.poll() # clear out the first reading

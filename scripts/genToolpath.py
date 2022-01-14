@@ -158,7 +158,7 @@ def generate_gcode(paths, cal, bit_offset, axis_offset):
     cut_feed_x = 50    
     cut_feed_y = 0.5    
     cut_feed_diag = 50    
-    fudge = 14 #TODO: calibrate ToF sensor and remove this value
+    fudge = 8 #TODO: calibrate ToF sensor and remove this value
 
     # find the z value that puts the bit in contact with the nominal cylinder
     r_nom = cal.max(axis=0)[2] + fudge
