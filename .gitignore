@@ -5,3 +5,5 @@ scripts/data
 scripts/gcode
 scripts/img
 *__pycache__
+hardware/stl/
+hardware/~$*
